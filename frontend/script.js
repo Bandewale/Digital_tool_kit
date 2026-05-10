@@ -9,7 +9,7 @@
 // When running locally: "http://localhost:3000"
 // After deploying backend on Render: paste URL here
 // -----------------------------------------------
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "https://agrireadiness-backend.onrender.com";
 
 // -----------------------------------------------
 // STATE – Holds all user answers
