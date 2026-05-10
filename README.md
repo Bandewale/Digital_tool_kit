@@ -14,7 +14,7 @@ agrireadiness/
 │   └── script.js       ← Form logic, validation, API call
 │
 └── backend/
-    ├── server.js       ← Express server + Anthropic API call
+    ├── server.js       ← Express server + Anthropic/Grok API call
     ├── package.json    ← Dependencies
     ├── .env.example    ← Rename to .env and fill in your key
     └── .gitignore      ← Keeps secrets safe
