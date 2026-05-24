@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AgriReadiness – Digital Assessment & Advisory Toolkit</title>
+  <title>AgriReadiness – Digital Toolkit for Agricultural Extension</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Google Fonts: Playfair Display + DM Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
@@ -13,11 +12,38 @@
   <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="header-inner">
-      <div class="logo">
-        <span class="logo-leaf">🌿</span>
-        <span class="logo-text">AgriReadiness</span>
+
+      <div class="header-top-row">
+        <div class="logo">
+          <span class="logo-leaf">🌿</span>
+          <span class="logo-text">AgriReadiness</span>
+        </div>
+
+        <!-- ══════════════════════════════════════════
+             MULTILINGUAL: Header language toggle pill
+             4 languages — switches entire UI instantly
+             ══════════════════════════════════════════ -->
+        <div class="lang-toggle" id="headerLangToggle">
+          <button class="lang-btn active" data-lang="en"   onclick="switchLanguage('en')">EN</button>
+          <button class="lang-btn"        data-lang="hi"   onclick="switchLanguage('hi')">हि</button>
+          <button class="lang-btn"        data-lang="te"   onclick="switchLanguage('te')">తె</button>
+          <button class="lang-btn"        data-lang="ta"   onclick="switchLanguage('ta')">த</button>
+        </div>
       </div>
-      <p class="tagline">Digital Assessment &amp; Advisory Toolkit</p>
+
+      <p class="tagline" data-i18n="tagline">Digital Toolkit for Agricultural Extension</p>
+
+      <!-- Toolkit architecture strip -->
+      <div class="arch-strip">
+        <span class="arch-node" id="arch-collection" data-i18n="arch_collection">Collection</span>
+        <span class="arch-arrow">→</span>
+        <span class="arch-node" id="arch-analysis"   data-i18n="arch_analysis">Analysis</span>
+        <span class="arch-arrow">→</span>
+        <span class="arch-node" id="arch-advisory"   data-i18n="arch_advisory">Advisory</span>
+        <span class="arch-arrow">→</span>
+        <span class="arch-node" id="arch-feedback"   data-i18n="arch_feedback">Feedback</span>
+      </div>
+
     </div>
   </header>
 
@@ -29,17 +55,17 @@
       <div class="progress-steps">
         <div class="step active" id="step-dot-1">
           <div class="step-dot"><span>1</span></div>
-          <div class="step-label">Basic Details</div>
+          <div class="step-label" data-i18n="step1_label">Farmer Profile</div>
         </div>
         <div class="step-line"></div>
         <div class="step" id="step-dot-2">
           <div class="step-dot"><span>2</span></div>
-          <div class="step-label">Learning Readiness</div>
+          <div class="step-label" data-i18n="step2_label">Extension Readiness</div>
         </div>
         <div class="step-line"></div>
         <div class="step" id="step-dot-3">
           <div class="step-dot"><span>3</span></div>
-          <div class="step-label">Additional Inputs</div>
+          <div class="step-label" data-i18n="step3_label">Context & Constraints</div>
         </div>
       </div>
       <div class="progress-fill-track">
@@ -47,217 +73,440 @@
       </div>
     </div>
 
-    <!-- ===== SECTION 1: Basic Details ===== -->
+    <!-- ══════════════════════════════════════════════════
+         SECTION 1: Farmer Profile
+         ══════════════════════════════════════════════════ -->
     <section class="form-card" id="section1">
       <div class="card-header">
-        <h2>Basic Details</h2>
-        <p class="card-desc">Let's start with some information about you.</p>
+        <div class="card-header-top">
+          <span class="section-tag" data-i18n="s1_tag">Step 1 — Collection</span>
+          <h2 data-i18n="s1_title">Farmer Profile</h2>
+        </div>
+        <p class="card-desc" data-i18n="s1_desc">Basic identification and prior digital engagement level.</p>
       </div>
+
       <div class="form-group">
-        <label for="farmerName">Your Name <span class="req">*</span></label>
-        <input type="text" id="farmerName" placeholder="Enter your full name" autocomplete="off"/>
-        <span class="field-error" id="nameError">Please enter your name.</span>
+        <label for="farmerName" data-i18n="s1_name_label">Respondent Name <span class="req">*</span></label>
+        <input type="text" id="farmerName" data-i18n-placeholder="s1_name_placeholder" placeholder="Enter full name" autocomplete="off"/>
+        <span class="field-error" id="nameError" data-i18n="s1_name_error">Please enter your name.</span>
       </div>
+
       <div class="form-group">
-        <label for="digitalExp">Digital Experience Level <span class="req">*</span></label>
+        <label data-i18n="s1_exp_label">Prior Digital Engagement Level <span class="req">*</span>
+          <span class="label-hint" data-i18n="s1_exp_hint">Self-assessed exposure to digital devices and services</span>
+        </label>
         <div class="radio-group">
           <label class="radio-card">
             <input type="radio" name="digitalExp" value="Low"/>
             <div class="radio-content">
               <span class="radio-icon">🌱</span>
-              <span class="radio-label">Low</span>
-              <span class="radio-desc">Rarely use digital tools</span>
+              <span class="radio-label" data-i18n="exp_low">Low</span>
+              <span class="radio-desc"  data-i18n="exp_low_desc">Minimal or no digital tool usage</span>
             </div>
           </label>
           <label class="radio-card">
             <input type="radio" name="digitalExp" value="Medium"/>
             <div class="radio-content">
               <span class="radio-icon">🌿</span>
-              <span class="radio-label">Medium</span>
-              <span class="radio-desc">Use apps occasionally</span>
+              <span class="radio-label" data-i18n="exp_med">Medium</span>
+              <span class="radio-desc"  data-i18n="exp_med_desc">Occasional use of mobile/apps</span>
             </div>
           </label>
           <label class="radio-card">
             <input type="radio" name="digitalExp" value="High"/>
             <div class="radio-content">
               <span class="radio-icon">🌳</span>
-              <span class="radio-label">High</span>
-              <span class="radio-desc">Comfortable with technology</span>
+              <span class="radio-label" data-i18n="exp_high">High</span>
+              <span class="radio-desc"  data-i18n="exp_high_desc">Regular and confident digital use</span>
             </div>
           </label>
         </div>
-        <span class="field-error" id="digitalExpError">Please select your digital experience level.</span>
+        <span class="field-error" id="digitalExpError" data-i18n="s1_exp_error">Please select an engagement level.</span>
       </div>
+
+      <!-- ══════════════════════════════════════════
+           MULTILINGUAL: Advisory language dropdown
+           inside Section 1 — synced with header toggle
+           ══════════════════════════════════════════ -->
+      <div class="form-group">
+        <label for="advisoryLang" data-i18n="s1_lang_label">Preferred Advisory Language
+          <span class="label-hint" data-i18n="s1_lang_hint">The AI-generated advisory will be produced in this language</span>
+        </label>
+        <select id="advisoryLang" onchange="onAdvisoryLangChange(this.value)">
+          <option value="English">English</option>
+          <option value="Telugu">Telugu (తెలుగు)</option>
+          <option value="Hindi">Hindi (हिंदी)</option>
+          <option value="Tamil">Tamil (தமிழ்)</option>
+        </select>
+      </div>
+
       <div class="btn-row">
-        <button class="btn-primary" onclick="proceedToSection2()">Proceed →</button>
+        <button class="btn-primary" onclick="proceedToSection2()" data-i18n="btn_proceed">Proceed →</button>
       </div>
     </section>
 
-    <!-- ===== SECTION 2: Learning Readiness ===== -->
+    <!-- ══════════════════════════════════════════════════
+         SECTION 2: Agricultural Digital Extension Readiness
+         ══════════════════════════════════════════════════ -->
     <section class="form-card hidden" id="section2">
       <div class="card-header">
-        <h2>Learning Readiness</h2>
-        <p class="card-desc">Rate your readiness across these key areas.</p>
+        <div class="card-header-top">
+          <span class="section-tag" data-i18n="s2_tag">Step 2 — Collection</span>
+          <h2 data-i18n="s2_title">Agricultural Digital Extension Readiness</h2>
+        </div>
+        <p class="card-desc" data-i18n="s2_desc">Rate current capacity across four digital extension readiness dimensions. Scores inform the adaptive advisory logic.</p>
       </div>
 
       <div class="form-group">
-        <label for="resources">Access to Resources <span class="req">*</span></label>
+        <label for="resources">
+          <span data-i18n="s2_res_label">Digital Infrastructure Access</span>
+          <span class="label-hint" data-i18n="s2_res_hint">Availability of devices, internet, and agricultural digital services</span>
+          <span class="req">*</span>
+        </label>
         <select id="resources">
-          <option value="">-- Select --</option>
-          <option value="1">1 – Very Limited</option>
-          <option value="2">2 – Limited</option>
-          <option value="3">3 – Moderate</option>
-          <option value="4">4 – Good</option>
-          <option value="5">5 – Excellent</option>
+          <option value=""  data-i18n="select_default">-- Select --</option>
+          <option value="1" data-i18n="res_1">1 – No access to digital infrastructure</option>
+          <option value="2" data-i18n="res_2">2 – Very limited access (shared/intermittent)</option>
+          <option value="3" data-i18n="res_3">3 – Moderate access with connectivity gaps</option>
+          <option value="4" data-i18n="res_4">4 – Reliable access to key digital services</option>
+          <option value="5" data-i18n="res_5">5 – Full and consistent digital infrastructure access</option>
         </select>
-        <span class="field-error" id="resourcesError">Please select a value.</span>
+        <span class="field-error" id="resourcesError" data-i18n="select_error">Please select a value.</span>
       </div>
 
       <div class="form-group">
-        <label for="guidance">Availability of Guidance <span class="req">*</span></label>
+        <label for="guidance">
+          <span data-i18n="s2_gui_label">Extension Support Availability</span>
+          <span class="label-hint" data-i18n="s2_gui_hint">Access to agricultural extension agents, advisors, or peer networks</span>
+          <span class="req">*</span>
+        </label>
         <select id="guidance">
-          <option value="">-- Select --</option>
-          <option value="1">1 – No guidance available</option>
-          <option value="2">2 – Minimal guidance</option>
-          <option value="3">3 – Some guidance</option>
-          <option value="4">4 – Regular guidance</option>
-          <option value="5">5 – Strong support system</option>
+          <option value=""  data-i18n="select_default">-- Select --</option>
+          <option value="1" data-i18n="gui_1">1 – No extension support available</option>
+          <option value="2" data-i18n="gui_2">2 – Occasional informal peer advice only</option>
+          <option value="3" data-i18n="gui_3">3 – Periodic contact with extension services</option>
+          <option value="4" data-i18n="gui_4">4 – Regular access to structured extension support</option>
+          <option value="5" data-i18n="gui_5">5 – Strong, multi-channel extension support network</option>
         </select>
-        <span class="field-error" id="guidanceError">Please select a value.</span>
+        <span class="field-error" id="guidanceError" data-i18n="select_error">Please select a value.</span>
       </div>
 
       <div class="form-group">
-        <label for="planning">Planning Ability <span class="req">*</span></label>
+        <label for="planning">
+          <span data-i18n="s2_pln_label">Farm Management Planning Capacity</span>
+          <span class="label-hint" data-i18n="s2_pln_hint">Ability to plan farming operations using structured or digital approaches</span>
+          <span class="req">*</span>
+        </label>
         <select id="planning">
-          <option value="">-- Select --</option>
-          <option value="1">1 – No planning done, reactive approach</option>
-          <option value="2">2 – Occasional informal planning</option>
-          <option value="3">3 – Basic seasonal planning</option>
-          <option value="4">4 – Structured planning most of the time</option>
-          <option value="5">5 – Systematic, data-driven planning</option>
+          <option value=""  data-i18n="select_default">-- Select --</option>
+          <option value="1" data-i18n="pln_1">1 – Entirely reactive; no structured planning</option>
+          <option value="2" data-i18n="pln_2">2 – Informal seasonal planning, experience-based</option>
+          <option value="3" data-i18n="pln_3">3 – Basic crop-cycle planning with occasional records</option>
+          <option value="4" data-i18n="pln_4">4 – Structured planning with some digital documentation</option>
+          <option value="5" data-i18n="pln_5">5 – Data-informed, systematic farm management planning</option>
         </select>
-        <span class="field-error" id="planningError">Please select a value.</span>
+        <span class="field-error" id="planningError" data-i18n="select_error">Please select a value.</span>
       </div>
 
       <div class="form-group">
-        <label for="consistency">Consistency of Effort <span class="req">*</span></label>
+        <label for="consistency">
+          <span data-i18n="s2_con_label">Technology Adoption Consistency</span>
+          <span class="label-hint" data-i18n="s2_con_hint">Regularity of engaging with new digital tools or extension recommendations</span>
+          <span class="req">*</span>
+        </label>
         <select id="consistency">
-          <option value="">-- Select --</option>
-          <option value="1">1 – Very inconsistent, often skips tasks</option>
-          <option value="2">2 – Inconsistent but trying</option>
-          <option value="3">3 – Moderately consistent</option>
-          <option value="4">4 – Consistent with minor lapses</option>
-          <option value="5">5 – Highly consistent and disciplined</option>
+          <option value=""  data-i18n="select_default">-- Select --</option>
+          <option value="1" data-i18n="con_1">1 – Rarely adopts or discontinues tools quickly</option>
+          <option value="2" data-i18n="con_2">2 – Tries occasionally, adoption is inconsistent</option>
+          <option value="3" data-i18n="con_3">3 – Moderate adoption with some sustained use</option>
+          <option value="4" data-i18n="con_4">4 – Consistent adoption with minor drop-offs</option>
+          <option value="5" data-i18n="con_5">5 – Sustained and disciplined technology adoption</option>
         </select>
-        <span class="field-error" id="consistencyError">Please select a value.</span>
+        <span class="field-error" id="consistencyError" data-i18n="select_error">Please select a value.</span>
       </div>
 
       <div class="btn-row space-between">
-        <button class="btn-secondary" onclick="goToSection(1)">← Back</button>
-        <button class="btn-primary" onclick="proceedToSection3()">Proceed →</button>
+        <button class="btn-secondary" onclick="goToSection(1)" data-i18n="btn_back">← Back</button>
+        <button class="btn-primary"   onclick="proceedToSection3()" data-i18n="btn_proceed">Proceed →</button>
       </div>
     </section>
 
-    <!-- ===== SECTION 3: Additional Inputs ===== -->
+    <!-- ══════════════════════════════════════════════════
+         SECTION 3: Contextual Factors & Constraints
+         ══════════════════════════════════════════════════ -->
     <section class="form-card hidden" id="section3">
       <div class="card-header">
-        <h2>Additional Inputs</h2>
-        <p class="card-desc">A few more details to personalise your advisory.</p>
+        <div class="card-header-top">
+          <span class="section-tag" data-i18n="s3_tag">Step 3 — Collection</span>
+          <h2 data-i18n="s3_title">Contextual Factors &amp; Constraints</h2>
+        </div>
+        <p class="card-desc" data-i18n="s3_desc">These inputs provide context that shapes the adaptive advisory output and explainability.</p>
       </div>
 
       <div class="form-group">
-        <label for="constraints">Main Constraints You Face</label>
+        <label for="constraints">
+          <span data-i18n="s3_con_label">Primary Adoption Barrier</span>
+          <span class="label-hint" data-i18n="s3_con_hint">Key structural or contextual constraint affecting digital extension uptake</span>
+        </label>
         <select id="constraints">
-          <option value="">-- Select --</option>
-          <option value="Financial">Financial limitations</option>
-          <option value="Technology Access">Limited technology access</option>
-          <option value="Skill Gap">Skill / knowledge gap</option>
-          <option value="Infrastructure">Poor infrastructure</option>
-          <option value="Market Access">Lack of market access</option>
-          <option value="None">No major constraints</option>
+          <option value=""                 data-i18n="select_default">-- Select --</option>
+          <option value="Financial"        data-i18n="con_financial">Financial limitations</option>
+          <option value="Technology Access" data-i18n="con_tech">Limited device or connectivity access</option>
+          <option value="Skill Gap"        data-i18n="con_skill">Digital literacy or skill gap</option>
+          <option value="Infrastructure"   data-i18n="con_infra">Poor rural infrastructure</option>
+          <option value="Market Access"    data-i18n="con_market">Lack of market or supply-chain connectivity</option>
+          <option value="Language Barrier" data-i18n="con_lang">Language or literacy barrier</option>
+          <option value="None"             data-i18n="con_none">No significant barrier identified</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="usability">How Usable Do You Find Digital Tools?</label>
+        <label for="usability">
+          <span data-i18n="s3_use_label">Perceived Usability of Digital Tools</span>
+          <span class="label-hint" data-i18n="s3_use_hint">Self-assessed ease of using agricultural apps or extension platforms</span>
+        </label>
         <select id="usability">
-          <option value="">-- Select --</option>
-          <option value="Very Easy">Very easy to use</option>
-          <option value="Easy">Easy</option>
-          <option value="Neutral">Neutral</option>
-          <option value="Difficult">Difficult</option>
-          <option value="Very Difficult">Very difficult</option>
+          <option value=""             data-i18n="select_default">-- Select --</option>
+          <option value="Very Easy"    data-i18n="use_veryeasy">Very easy – tools are accessible and intuitive</option>
+          <option value="Easy"         data-i18n="use_easy">Easy – can use with minor difficulty</option>
+          <option value="Neutral"      data-i18n="use_neutral">Neutral – mixed experience</option>
+          <option value="Difficult"    data-i18n="use_difficult">Difficult – requires significant support</option>
+          <option value="Very Difficult" data-i18n="use_verydifficult">Very difficult – inaccessible without assistance</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="feedback">Your Feedback / Additional Comments</label>
-        <textarea id="feedback" rows="4" placeholder="Share any thoughts, challenges, or goals…"></textarea>
+        <label for="feedback">
+          <span data-i18n="s3_fb_label">Open-Ended Context Response</span>
+          <span class="label-hint" data-i18n="s3_fb_hint">Challenges, aspirations, or additional context (used to personalise advisory)</span>
+        </label>
+        <textarea id="feedback" rows="4"
+          data-i18n-placeholder="s3_fb_placeholder"
+          placeholder="Describe your farming context, challenges, or digital adoption experience…"></textarea>
       </div>
 
       <div class="btn-row space-between">
-        <button class="btn-secondary" onclick="goToSection(2)">← Back</button>
-        <button class="btn-primary" onclick="submitAssessment()">Submit Assessment</button>
+        <button class="btn-secondary" onclick="goToSection(2)" data-i18n="btn_back">← Back</button>
+        <button class="btn-primary"   onclick="submitAssessment()" data-i18n="btn_submit">Generate Advisory Report →</button>
       </div>
     </section>
 
-    <!-- ===== RESULT SCREEN ===== -->
+    <!-- ══════════════════════════════════════════════════
+         RESULT SCREEN
+         ══════════════════════════════════════════════════ -->
     <section class="form-card hidden" id="resultSection">
 
-      <!-- Loading State -->
+      <!-- Loading -->
       <div id="loadingState" class="loading-state hidden">
         <div class="spinner"></div>
-        <p class="loading-text">Generating your personalised advisory…</p>
-        <p class="loading-sub">Our AI is analysing your responses</p>
+        <p class="loading-text"  data-i18n="loading_title">Generating Advisory Report…</p>
+        <p class="loading-sub"   data-i18n="loading_sub">Analysing responses · Applying readiness model · Generating contextual advisory</p>
       </div>
 
       <!-- Result Content -->
       <div id="resultContent" class="hidden">
+
+        <!-- Process strip -->
+        <div class="process-strip">
+          <div class="process-node completed">
+            <span class="process-icon">✓</span>
+            <span class="process-label" data-i18n="arch_collection">Collection</span>
+          </div>
+          <div class="process-line completed"></div>
+          <div class="process-node completed">
+            <span class="process-icon">✓</span>
+            <span class="process-label" data-i18n="arch_analysis">Analysis</span>
+          </div>
+          <div class="process-line active"></div>
+          <div class="process-node active">
+            <span class="process-icon">◉</span>
+            <span class="process-label" data-i18n="arch_advisory">Advisory</span>
+          </div>
+          <div class="process-line"></div>
+          <div class="process-node" id="feedbackNode">
+            <span class="process-icon">○</span>
+            <span class="process-label" data-i18n="arch_feedback">Feedback</span>
+          </div>
+        </div>
+
+        <!-- Report header -->
         <div class="result-header">
-          <div class="result-avatar">🌾</div>
-          <h2>Your AgriReadiness Report</h2>
+          <div class="report-meta">
+            <span class="report-label" data-i18n="report_label">DIGITAL EXTENSION READINESS REPORT</span>
+            <span class="report-date" id="reportDate"></span>
+          </div>
+          <h2 data-i18n="report_title">Assessment Report</h2>
           <p class="result-name" id="resultName"></p>
         </div>
 
-        <!-- Score Visual -->
-        <div class="score-visual">
-          <div class="score-labels">
-            <span>Score</span>
-            <span id="scoreDisplay" class="score-number"></span>
+        <!-- A: Assessment Summary -->
+        <div class="result-card" id="cardSummary">
+          <div class="result-card-header">
+            <span class="result-card-tag">A</span>
+            <h3 data-i18n="card_a_title">Assessment Summary</h3>
           </div>
-          <div class="score-track">
-            <div class="score-bar" id="scoreBar"></div>
-            <div class="score-markers">
-              <span>0</span><span>8</span><span>16</span><span>20</span>
+          <div class="summary-grid">
+            <div class="summary-item">
+              <span class="summary-label" data-i18n="sum_exp">Digital Experience</span>
+              <span class="summary-value" id="sumDigitalExp"></span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label" data-i18n="sum_barrier">Primary Barrier</span>
+              <span class="summary-value" id="sumConstraints"></span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label" data-i18n="sum_usability">Tool Usability</span>
+              <span class="summary-value" id="sumUsability"></span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label" data-i18n="sum_lang">Advisory Language</span>
+              <span class="summary-value" id="sumLang"></span>
             </div>
           </div>
-          <div class="category-badge" id="categoryBadge"></div>
         </div>
 
-        <!-- Advisory Box -->
-        <div class="advisory-box">
-          <div class="advisory-header">
-            <span class="advisory-icon">🤖</span>
-            <h3>AI-Powered Advisory</h3>
+        <!-- B: Readiness Interpretation -->
+        <div class="result-card" id="cardScore">
+          <div class="result-card-header">
+            <span class="result-card-tag">B</span>
+            <h3 data-i18n="card_b_title">Readiness Interpretation</h3>
           </div>
-          <p class="advisory-text" id="advisoryText"></p>
+          <div class="score-visual">
+            <div class="score-labels">
+              <span class="score-dimension-label" data-i18n="score_label">Composite Readiness Score</span>
+              <span id="scoreDisplay" class="score-number"></span>
+            </div>
+            <div class="sub-scores" id="subScores"></div>
+            <div class="score-track">
+              <div class="score-bar" id="scoreBar"></div>
+            </div>
+            <div class="score-markers">
+              <span>0<br><small data-i18n="score_none">None</small></span>
+              <span>8<br><small data-i18n="score_low">Low</small></span>
+              <span>16<br><small data-i18n="score_med">Medium</small></span>
+              <span>20<br><small data-i18n="score_high">High</small></span>
+            </div>
+            <div class="category-badge" id="categoryBadge"></div>
+          </div>
+          <p class="readiness-interpretation" id="readinessInterpretation"></p>
         </div>
 
-        <!-- Reset / Restart -->
-        <div class="btn-row centered">
-          <button class="btn-secondary" onclick="resetAssessment()">🔄 Start Over</button>
-          <button class="btn-primary" onclick="saveToLocal()">💾 Save Results</button>
+        <!-- C: Key Constraints -->
+        <div class="result-card" id="cardConstraints">
+          <div class="result-card-header">
+            <span class="result-card-tag">C</span>
+            <h3 data-i18n="card_c_title">Key Constraints Identified</h3>
+          </div>
+          <div class="constraints-list" id="constraintsList"></div>
         </div>
-      </div>
+
+        <!-- D: Advisory -->
+        <div class="result-card advisory-card" id="cardAdvisory">
+          <div class="result-card-header">
+            <span class="result-card-tag">D</span>
+            <h3 data-i18n="card_d_title">Adaptive Advisory Output</h3>
+            <span class="lang-badge" id="langBadge"></span>
+          </div>
+          <div class="advisory-content" id="advisoryText"></div>
+          <div class="advisory-actions">
+            <button class="btn-tts" id="ttsBtn" onclick="readAdvisory()" data-i18n="btn_tts">🔊 Read Advisory</button>
+          </div>
+        </div>
+
+        <!-- E: XAI -->
+        <div class="result-card xai-card" id="cardXAI">
+          <div class="result-card-header">
+            <span class="result-card-tag">E</span>
+            <h3 data-i18n="card_e_title">Why This Advisory Was Generated</h3>
+            <span class="xai-label" data-i18n="xai_label">Explainability</span>
+          </div>
+          <div class="xai-content" id="xaiContent"></div>
+        </div>
+
+        <!-- F: Next Steps -->
+        <div class="result-card" id="cardNextSteps">
+          <div class="result-card-header">
+            <span class="result-card-tag">F</span>
+            <h3 data-i18n="card_f_title">Suggested Next Steps</h3>
+          </div>
+          <div class="next-steps-content" id="nextStepsContent"></div>
+        </div>
+
+        <!-- G: HITL -->
+        <div class="result-card hitl-card" id="cardHITL">
+          <div class="result-card-header">
+            <span class="result-card-tag">G</span>
+            <h3 data-i18n="card_g_title">Extension Support Recommendation</h3>
+            <span class="hitl-label" data-i18n="hitl_label">Human-in-the-Loop</span>
+          </div>
+          <div class="hitl-content" id="hitlContent"></div>
+        </div>
+
+        <!-- H: Feedback -->
+        <div class="result-card feedback-card" id="cardFeedback">
+          <div class="result-card-header">
+            <span class="result-card-tag">H</span>
+            <h3 data-i18n="card_h_title">Advisory Feedback</h3>
+            <span class="feedback-stage-label" data-i18n="feedback_stage">Feedback Stage</span>
+          </div>
+          <div class="feedback-form" id="feedbackForm">
+            <div class="feedback-group">
+              <label class="feedback-label" data-i18n="fb_rate_label">Rate the relevance of this advisory</label>
+              <div class="star-rating" id="starRating">
+                <span class="star" onclick="setRating(1)">★</span>
+                <span class="star" onclick="setRating(2)">★</span>
+                <span class="star" onclick="setRating(3)">★</span>
+                <span class="star" onclick="setRating(4)">★</span>
+                <span class="star" onclick="setRating(5)">★</span>
+              </div>
+              <span class="rating-label" id="ratingLabel" data-i18n="fb_not_rated">Not rated</span>
+            </div>
+            <div class="feedback-group">
+              <label class="feedback-label" data-i18n="fb_impl_label">Would you implement these recommendations?</label>
+              <div class="impl-options">
+                <label class="impl-option"><input type="radio" name="implement" value="Yes"/>   <span data-i18n="fb_yes">Yes</span></label>
+                <label class="impl-option"><input type="radio" name="implement" value="Partially"/> <span data-i18n="fb_partial">Partially</span></label>
+                <label class="impl-option"><input type="radio" name="implement" value="No"/>    <span data-i18n="fb_no">No</span></label>
+              </div>
+            </div>
+            <div class="feedback-group">
+              <label class="feedback-label">
+                <span data-i18n="fb_support_label">What support would help implementation?</span>
+                <span class="optional" data-i18n="optional">(optional)</span>
+              </label>
+              <textarea id="supportNeeded" rows="3"
+                data-i18n-placeholder="fb_support_placeholder"
+                placeholder="Describe what assistance, training, or resources would help…"></textarea>
+            </div>
+            <div class="btn-row">
+              <button class="btn-primary" onclick="submitFeedback()" data-i18n="btn_submit_feedback">Submit Feedback →</button>
+            </div>
+          </div>
+          <div class="feedback-submitted hidden" id="feedbackSubmitted">
+            <div class="feedback-confirm">
+              <span class="confirm-icon">✓</span>
+              <p data-i18n="fb_confirmed">Feedback recorded. This input contributes to the adaptive feedback loop.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="btn-row centered result-actions">
+          <button class="btn-secondary" onclick="resetAssessment()" data-i18n="btn_new">↺ New Assessment</button>
+          <button class="btn-primary"   onclick="saveToLocal()"     data-i18n="btn_save">↓ Save Report</button>
+        </div>
+
+      </div><!-- end resultContent -->
     </section>
 
   </main>
 
   <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
-    <p>AgriReadiness &copy; 2025 &bull; Empowering Farmers Through Digital Insight</p>
+    <p data-i18n="footer">AgriReadiness © 2025 · Digital Toolkit for Agricultural Extension · PhD Credit Seminar Prototype</p>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
+HTMLEOF
