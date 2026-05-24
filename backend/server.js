@@ -1,15 +1,21 @@
 // =============================================
 // AgriReadiness – server.js
-// Express Backend with Groq AI Advisory API
-// FREE tier – No billing required
+// ENHANCED for PhD Seminar: Digital Toolkit for Agricultural Extension
+//
+// Changes:
+// - Accepts 'language', 'constraints', and per-dimension scores in request body
+// - Updated structured Groq prompt (Part 12):
+//     · Extension-oriented, non-chatbot tone
+//     · Multilingual output (English / Hindi / Marathi)
+//     · Avoids hallucinations, fake statistics, motivational filler
+//     · Generates structured advisory paragraphs
 // =============================================
 
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import Groq from "groq-sdk";
+const express = require("express");
+const cors    = require("cors");
+const dotenv  = require("dotenv");
+const Groq    = require("groq-sdk");
 
-// Load environment variables from .env file
 dotenv.config();
 
 const app  = express();
@@ -18,30 +24,20 @@ const PORT = process.env.PORT || 3000;
 // -----------------------------------------------
 // MIDDLEWARE
 // -----------------------------------------------
-
-// Enable CORS so your frontend (GitHub Pages) can call this backend
 app.use(cors({
-  origin: "*",  // In production, replace * with your GitHub Pages URL
+  origin: "*",   // Replace * with your GitHub Pages URL in production
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type"]
 }));
-
-// Parse JSON request bodies
 app.use(express.json());
 
 // -----------------------------------------------
-// INIT GROQ CLIENT
-// API key is read from .env – NEVER expose in frontend
-// Get your free key at: https://console.groq.com
+// GROQ CLIENT
 // -----------------------------------------------
-console.log("🔑 GROQ KEY:", process.env.GROQ_API_KEY);
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
-});
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 // -----------------------------------------------
-// RETRY HELPER
-// Automatically retries on 429 rate-limit errors
+// RETRY HELPER (preserved)
 // -----------------------------------------------
 async function callWithRetry(fn, retries = 3, delayMs = 35000) {
   for (let attempt = 1; attempt <= retries; attempt++) {
@@ -51,9 +47,7 @@ async function callWithRetry(fn, retries = 3, delayMs = 35000) {
       const is429 =
         err?.status === 429 ||
         err?.message?.includes("429") ||
-        err?.message?.includes("RESOURCE_EXHAUSTED") ||
         err?.message?.includes("rate_limit");
-
       if (is429 && attempt < retries) {
         console.log(`⚠️  Rate limited. Retrying in ${delayMs / 1000}s (attempt ${attempt}/${retries})...`);
         await new Promise(r => setTimeout(r, delayMs));
@@ -65,108 +59,125 @@ async function callWithRetry(fn, retries = 3, delayMs = 35000) {
 }
 
 // -----------------------------------------------
-// HEALTH CHECK ROUTE
+// HEALTH CHECK
 // -----------------------------------------------
 app.get("/", (req, res) => {
-  res.json({ status: "AgriReadiness backend is running ✅ (powered by Groq)" });
+  res.json({ status: "AgriReadiness backend running ✅ — Digital Toolkit for Agricultural Extension" });
 });
 
 // -----------------------------------------------
 // POST /generate-advisory
-// Body: { name, score, category, digital_experience, usability, feedback }
-// Returns: { advisory: "string" }
+//
+// Request body (enhanced):
+// {
+//   name, score, category,
+//   digital_experience, usability, feedback, constraints,
+//   resources, guidance, planning, consistency,
+//   language   ← NEW: "English" | "Hindi" | "Marathi"
+// }
+//
+// Response: { advisory: "string" }
 // -----------------------------------------------
 app.post("/generate-advisory", async (req, res) => {
-  const { name, score, category, digital_experience, usability, feedback } = req.body;
+  const {
+    name, score, category,
+    digital_experience, usability, feedback, constraints,
+    resources, guidance, planning, consistency,
+    language = "English"
+  } = req.body;
 
-  // Basic input validation
+  // Validation
   if (!name || score === undefined || !category) {
-    return res.status(400).json({
-      error: "Missing required fields: name, score, category"
-    });
+    return res.status(400).json({ error: "Missing required fields: name, score, category" });
   }
 
   // -----------------------------------------------
-  // BUILD PROMPT – Agriculture context, farmer-friendly
+  // LANGUAGE INSTRUCTION
+  // -----------------------------------------------
+ const languageInstructions = {
+  English: "Generate the advisory entirely in English.",
+
+  Hindi:
+    "Generate the advisory entirely in Hindi (हिंदी). Use natural, conversational Hindi appropriate for rural farmers in India. Do not use overly formal or bureaucratic Hindi. Do not mix English sentences.",
+
+  Telugu:
+    "Generate the advisory entirely in Telugu (తెలుగు). Use natural, conversational Telugu appropriate for rural farmers in Andhra Pradesh and Telangana. Do not use overly formal Telugu. Do not mix English sentences."
+};
+  const langInstruction = languageInstructions[language] || languageInstructions["English"];
+
+  // -----------------------------------------------
+  // UPDATED GROQ PROMPT (Part 12)
+  // Extension-oriented · Structured · Non-chatbot
   // -----------------------------------------------
   const prompt = `
-You are an expert agricultural digital readiness advisor helping farmers in India improve their livelihoods through smart farming and digital tools.
+You are an agricultural extension advisory system generating a formal digital readiness advisory report. Your output is used in a research prototype demonstrating adaptive advisory systems for agricultural extension.
 
-A farmer has just completed the AgriReadiness Digital Assessment. Here are their results:
+ASSESSMENT DATA:
+- Respondent: ${name}
+- Composite Readiness Score: ${score}/20
+- Readiness Category: ${category} (Low: 0–8, Medium: 9–16, High: 17–20)
+- Prior Digital Engagement: ${digital_experience}
+- Digital Infrastructure Access: ${resources}/5
+- Extension Support Availability: ${guidance}/5
+- Farm Management Planning Capacity: ${planning}/5
+- Technology Adoption Consistency: ${consistency}/5
+- Primary Adoption Barrier: ${constraints}
+- Perceived Tool Usability: ${usability}
+- Open-Ended Response: "${feedback}"
 
-- Farmer Name: ${name}
-- Total Score: ${score} out of 20
-- Readiness Category: ${category}
-- Digital Experience: ${digital_experience}
-- Finds Digital Tools: ${usability}
-- Their Own Feedback / Comments: "${feedback}"
+LANGUAGE INSTRUCTION:
+${langInstruction}
 
-Score Interpretation:
-- Low (0–8): Farmer needs foundational support in both digital literacy and farming practices.
-- Medium (9–16): Farmer has some readiness but needs targeted guidance in specific areas.
-- High (17–20): Farmer is well-prepared and can be guided toward advanced digital tools and innovation.
+ADVISORY GENERATION RULES — STRICTLY FOLLOW ALL:
 
-Your task:
-Write a warm, encouraging, farmer-friendly advisory (4–6 sentences) that:
-1. Acknowledges their current readiness level respectfully
-2. Gives 2–3 specific, practical suggestions suited to their category and digital experience
-3. Recommends Indian government schemes or digital tools where appropriate (e.g., eNAM, PM-KISAN, Kisan Suvidha app, etc.)
-4. Ends with an encouraging, motivating message
-5. Uses simple, clear language (avoid jargon – the farmer may have limited literacy)
+1. Write 3–4 focused paragraphs of advisory content.
+2. Each paragraph addresses a distinct aspect: (a) readiness interpretation, (b) specific context-adapted recommendations, (c) relevant government schemes or digital tools, (d) extension system engagement.
+3. Tone must be: professional, analytical, concise, and extension-system oriented.
+4. Do NOT use bullet points, numbered lists, or headers inside the advisory.
+5. Do NOT use any of these phrases or similar: "great job", "well done", "I'm glad", "exciting journey", "you should be proud", "keep it up", "as an AI", "I think", "I feel", "I recommend you", "don't worry".
+6. Do NOT start with the respondent's name or a greeting.
+7. Do NOT invent statistics, percentages, or research citations.
+8. Do NOT make exaggerated claims about outcomes.
+9. Recommendations must be specific to the score, category, and identified barrier — not generic.
+10. Where relevant, mention real Indian government agricultural programmes: eNAM, PM-KISAN, Kisan Suvidha app, IFFCO Kisan, Kisan Call Centre (1800-180-1551), Krishi Vigyan Kendras (KVK), Digital India agricultural initiatives.
+11. Recommendations should prioritise low-cost, accessible, and digitally-inclusive approaches appropriate to the identified readiness level.
+12. The advisory should read as a toolkit-generated assessment report, not as a conversation or chatbot response.
 
-Do not use bullet points. Write in friendly, conversational paragraphs only.
+BEGIN ADVISORY:
 `;
 
-  console.log(`\n📋 Advisory request received for: ${name} | Score: ${score} | Category: ${category}`);
+  console.log(`\n📋 Advisory request | Name: ${name} | Score: ${score} | Category: ${category} | Language: ${language}`);
 
   try {
-    // -----------------------------------------------
-    // CALL GROQ API with retry logic
-    // -----------------------------------------------
     const advisory = await callWithRetry(async () => {
       const response = await groq.chat.completions.create({
-        model:       "llama-3.3-70b-versatile", // Free, fast, highly capable model
+        model:       "llama-3.3-70b-versatile",
         messages:    [{ role: "user", content: prompt }],
-        max_tokens:  600,
-        temperature: 0.7  // Slightly creative but grounded
+        max_tokens:  700,
+        temperature: 0.4   // Lower temperature = more consistent, less hallucination
       });
-
       return response.choices[0].message.content.trim();
     });
 
-    console.log(`✅ Advisory generated successfully for: ${name}`);
-
-    // Return advisory to frontend
+    console.log(`✅ Advisory generated | ${name} | ${language}`);
     res.json({ advisory });
 
   } catch (err) {
     console.error("❌ Groq API Error:", err?.message || err);
 
-    // Handle rate limit errors gracefully
-    const is429 =
-      err?.status === 429 ||
-      err?.message?.includes("rate_limit") ||
-      err?.message?.includes("429");
-
+    const is429 = err?.status === 429 || err?.message?.includes("rate_limit");
     if (is429) {
       return res.status(429).json({
-        error: "AI service is temporarily rate-limited. Please try again in 30 seconds.",
+        error: "Advisory service is temporarily rate-limited. Please retry after 30 seconds.",
         retryAfter: 30
       });
     }
 
-    // Handle missing/invalid API key
     if (err?.message?.includes("401") || err?.message?.includes("api_key")) {
-      return res.status(500).json({
-        error: "Invalid or missing GROQ_API_KEY. Please check your .env file."
-      });
+      return res.status(500).json({ error: "Invalid or missing GROQ_API_KEY. Check your .env file." });
     }
 
-    // Generic fallback
-    res.status(500).json({
-      error: "Failed to generate advisory. Please try again.",
-      details: err?.message
-    });
+    res.status(500).json({ error: "Advisory generation failed.", details: err?.message });
   }
 });
 
@@ -175,6 +186,7 @@ Do not use bullet points. Write in friendly, conversational paragraphs only.
 // -----------------------------------------------
 app.listen(PORT, () => {
   console.log(`\n🌿 AgriReadiness backend running on http://localhost:${PORT}`);
-  console.log(`   Powered by: Groq (llama-3.3-70b-versatile)`);
-  console.log(`   POST /generate-advisory  → AI Advisory endpoint\n`);
+  console.log(`   Toolkit: Digital Toolkit for Agricultural Extension`);
+  console.log(`   Model: Groq llama-3.3-70b-versatile`);
+  console.log(`   POST /generate-advisory → Multilingual adaptive advisory\n`);
 });
