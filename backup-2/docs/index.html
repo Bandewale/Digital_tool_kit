@@ -12,19 +12,28 @@
   <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="header-inner">
+
       <div class="header-top-row">
         <div class="logo">
           <span class="logo-leaf">🌿</span>
           <span class="logo-text">AgriReadiness</span>
         </div>
+
+        <!-- ══════════════════════════════════════════
+             MULTILINGUAL: Header language toggle pill
+             4 languages — switches entire UI instantly
+             ══════════════════════════════════════════ -->
         <div class="lang-toggle" id="headerLangToggle">
-          <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">EN</button>
-          <button class="lang-btn"        data-lang="hi" onclick="switchLanguage('hi')">हि</button>
-          <button class="lang-btn"        data-lang="te" onclick="switchLanguage('te')">తె</button>
-          <button class="lang-btn"        data-lang="ta" onclick="switchLanguage('ta')">த</button>
+          <button class="lang-btn active" data-lang="en"   onclick="switchLanguage('en')">EN</button>
+          <button class="lang-btn"        data-lang="hi"   onclick="switchLanguage('hi')">हि</button>
+          <button class="lang-btn"        data-lang="te"   onclick="switchLanguage('te')">తె</button>
+
         </div>
       </div>
+
       <p class="tagline" data-i18n="tagline">Digital Toolkit for Agricultural Extension</p>
+
+      <!-- Toolkit architecture strip -->
       <div class="arch-strip">
         <span class="arch-node" id="arch-collection" data-i18n="arch_collection">Collection</span>
         <span class="arch-arrow">→</span>
@@ -34,6 +43,7 @@
         <span class="arch-arrow">→</span>
         <span class="arch-node" id="arch-feedback"   data-i18n="arch_feedback">Feedback</span>
       </div>
+
     </div>
   </header>
 
@@ -55,7 +65,7 @@
         <div class="step-line"></div>
         <div class="step" id="step-dot-3">
           <div class="step-dot"><span>3</span></div>
-          <div class="step-label" data-i18n="step3_label">Context &amp; Constraints</div>
+          <div class="step-label" data-i18n="step3_label">Context & Constraints</div>
         </div>
       </div>
       <div class="progress-fill-track">
@@ -114,15 +124,18 @@
         <span class="field-error" id="digitalExpError" data-i18n="s1_exp_error">Please select an engagement level.</span>
       </div>
 
+      <!-- ══════════════════════════════════════════
+           MULTILINGUAL: Advisory language dropdown
+           inside Section 1 — synced with header toggle
+           ══════════════════════════════════════════ -->
       <div class="form-group">
         <label for="advisoryLang" data-i18n="s1_lang_label">Preferred Advisory Language
-          <span class="label-hint" data-i18n="s1_lang_hint">The advisory will be generated in this language</span>
+          <span class="label-hint" data-i18n="s1_lang_hint">The AI-generated advisory will be produced in this language</span>
         </label>
         <select id="advisoryLang" onchange="onAdvisoryLangChange(this.value)">
           <option value="English">English</option>
           <option value="Telugu">Telugu (తెలుగు)</option>
           <option value="Hindi">Hindi (हिंदी)</option>
-          <option value="Tamil">Tamil (தமிழ்)</option>
         </select>
       </div>
 
@@ -140,7 +153,7 @@
           <span class="section-tag" data-i18n="s2_tag">Step 2 — Collection</span>
           <h2 data-i18n="s2_title">Agricultural Digital Extension Readiness</h2>
         </div>
-        <p class="card-desc" data-i18n="s2_desc">Rate current capacity across four digital extension readiness dimensions.</p>
+        <p class="card-desc" data-i18n="s2_desc">Rate current capacity across four digital extension readiness dimensions. Scores inform the adaptive advisory logic.</p>
       </div>
 
       <div class="form-group">
@@ -226,7 +239,7 @@
           <span class="section-tag" data-i18n="s3_tag">Step 3 — Collection</span>
           <h2 data-i18n="s3_title">Contextual Factors &amp; Constraints</h2>
         </div>
-        <p class="card-desc" data-i18n="s3_desc">These inputs provide context that shapes the adaptive advisory output.</p>
+        <p class="card-desc" data-i18n="s3_desc">These inputs provide context that shapes the adaptive advisory output and explainability.</p>
       </div>
 
       <div class="form-group">
@@ -235,14 +248,14 @@
           <span class="label-hint" data-i18n="s3_con_hint">Key structural or contextual constraint affecting digital extension uptake</span>
         </label>
         <select id="constraints">
-          <option value=""                  data-i18n="select_default">-- Select --</option>
-          <option value="Financial"         data-i18n="con_financial">Financial limitations</option>
+          <option value=""                 data-i18n="select_default">-- Select --</option>
+          <option value="Financial"        data-i18n="con_financial">Financial limitations</option>
           <option value="Technology Access" data-i18n="con_tech">Limited device or connectivity access</option>
-          <option value="Skill Gap"         data-i18n="con_skill">Digital literacy or skill gap</option>
-          <option value="Infrastructure"    data-i18n="con_infra">Poor rural infrastructure</option>
-          <option value="Market Access"     data-i18n="con_market">Lack of market or supply-chain connectivity</option>
-          <option value="Language Barrier"  data-i18n="con_lang">Language or literacy barrier</option>
-          <option value="None"              data-i18n="con_none">No significant barrier identified</option>
+          <option value="Skill Gap"        data-i18n="con_skill">Digital literacy or skill gap</option>
+          <option value="Infrastructure"   data-i18n="con_infra">Poor rural infrastructure</option>
+          <option value="Market Access"    data-i18n="con_market">Lack of market or supply-chain connectivity</option>
+          <option value="Language Barrier" data-i18n="con_lang">Language or literacy barrier</option>
+          <option value="None"             data-i18n="con_none">No significant barrier identified</option>
         </select>
       </div>
 
@@ -252,11 +265,11 @@
           <span class="label-hint" data-i18n="s3_use_hint">Self-assessed ease of using agricultural apps or extension platforms</span>
         </label>
         <select id="usability">
-          <option value=""              data-i18n="select_default">-- Select --</option>
-          <option value="Very Easy"     data-i18n="use_veryeasy">Very easy – tools are accessible and intuitive</option>
-          <option value="Easy"          data-i18n="use_easy">Easy – can use with minor difficulty</option>
-          <option value="Neutral"       data-i18n="use_neutral">Neutral – mixed experience</option>
-          <option value="Difficult"     data-i18n="use_difficult">Difficult – requires significant support</option>
+          <option value=""             data-i18n="select_default">-- Select --</option>
+          <option value="Very Easy"    data-i18n="use_veryeasy">Very easy – tools are accessible and intuitive</option>
+          <option value="Easy"         data-i18n="use_easy">Easy – can use with minor difficulty</option>
+          <option value="Neutral"      data-i18n="use_neutral">Neutral – mixed experience</option>
+          <option value="Difficult"    data-i18n="use_difficult">Difficult – requires significant support</option>
           <option value="Very Difficult" data-i18n="use_verydifficult">Very difficult – inaccessible without assistance</option>
         </select>
       </div>
@@ -264,7 +277,7 @@
       <div class="form-group">
         <label for="feedback">
           <span data-i18n="s3_fb_label">Open-Ended Context Response</span>
-          <span class="label-hint" data-i18n="s3_fb_hint">Challenges, aspirations, or additional context</span>
+          <span class="label-hint" data-i18n="s3_fb_hint">Challenges, aspirations, or additional context (used to personalise advisory)</span>
         </label>
         <textarea id="feedback" rows="4"
           data-i18n-placeholder="s3_fb_placeholder"
@@ -282,14 +295,14 @@
          ══════════════════════════════════════════════════ -->
     <section class="form-card hidden" id="resultSection">
 
-      <!-- Loading — starts visible when result section opens -->
-      <div id="loadingState" class="loading-state">
+      <!-- Loading -->
+      <div id="loadingState" class="loading-state hidden">
         <div class="spinner"></div>
-        <p class="loading-text" data-i18n="loading_title">Generating Advisory Report…</p>
-        <p class="loading-sub"  data-i18n="loading_sub">Analysing responses · Applying readiness model · Generating advisory</p>
+        <p class="loading-text"  data-i18n="loading_title">Generating Advisory Report…</p>
+        <p class="loading-sub"   data-i18n="loading_sub">Analysing responses · Applying readiness model · Generating contextual advisory</p>
       </div>
 
-      <!-- Result Content — hidden until loading complete -->
+      <!-- Result Content -->
       <div id="resultContent" class="hidden">
 
         <!-- Process strip -->
@@ -351,11 +364,11 @@
           </div>
         </div>
 
-        <!-- B: Readiness Score & Profile -->
+        <!-- B: Readiness Interpretation -->
         <div class="result-card" id="cardScore">
           <div class="result-card-header">
             <span class="result-card-tag">B</span>
-            <h3 data-i18n="card_b_title">Readiness Score &amp; Profile</h3>
+            <h3 data-i18n="card_b_title">Readiness Interpretation</h3>
           </div>
           <div class="score-visual">
             <div class="score-labels">
@@ -375,41 +388,22 @@
             <div class="category-badge" id="categoryBadge"></div>
           </div>
           <p class="readiness-interpretation" id="readinessInterpretation"></p>
-          <!-- Digital Readiness Profile block -->
-          <div class="profile-block" id="profileBlock">
-            <div class="profile-header-row">
-              <span class="profile-tag">Digital Readiness Profile</span>
-            </div>
-            <div class="profile-name" id="profileName"></div>
-            <p class="profile-desc" id="profileDesc"></p>
-          </div>
         </div>
 
-        <!-- C: Strengths, Challenges & Priority Actions -->
+        <!-- C: Key Constraints -->
         <div class="result-card" id="cardConstraints">
           <div class="result-card-header">
             <span class="result-card-tag">C</span>
-            <h3 data-i18n="card_c_title">Strengths &amp; Challenges</h3>
+            <h3 data-i18n="card_c_title">Key Constraints Identified</h3>
           </div>
-          <div class="sc-section">
-            <div class="sc-label sc-label-strengths">Your Strengths</div>
-            <div class="sc-list" id="strengthsList"></div>
-          </div>
-          <div class="sc-section" style="margin-top:14px;">
-            <div class="sc-label sc-label-challenges">Challenges Identified</div>
-            <div class="sc-list" id="challengesList"></div>
-          </div>
-          <div class="sc-section" style="margin-top:14px;">
-            <div class="sc-label sc-label-priorities">Priority Action Areas</div>
-            <div class="sc-list" id="prioritiesList"></div>
-          </div>
+          <div class="constraints-list" id="constraintsList"></div>
         </div>
 
-        <!-- D: Recommended Next Steps -->
+        <!-- D: Advisory -->
         <div class="result-card advisory-card" id="cardAdvisory">
           <div class="result-card-header">
             <span class="result-card-tag">D</span>
-            <h3 data-i18n="card_d_title">Recommended Next Steps</h3>
+            <h3 data-i18n="card_d_title">Adaptive Advisory Output</h3>
             <span class="lang-badge" id="langBadge"></span>
           </div>
           <div class="advisory-content" id="advisoryText"></div>
@@ -418,49 +412,43 @@
           </div>
         </div>
 
-        <!-- E: Extension Support Recommendation -->
-        <div class="result-card hitl-card" id="cardXAI">
+        <!-- E: XAI -->
+        <div class="result-card xai-card" id="cardXAI">
           <div class="result-card-header">
             <span class="result-card-tag">E</span>
-            <h3 data-i18n="card_g_title">Extension Support Recommendation</h3>
-            <span class="hitl-label" data-i18n="hitl_label">Human-in-the-Loop</span>
-          </div>
-          <div class="support-level-row">
-            <span class="support-level-badge" id="supportLevelBadge"></span>
-          </div>
-          <div class="hitl-content" id="hitlContent"></div>
-        </div>
-
-        <!-- F: Why This Advisory Was Generated (XAI) -->
-        <div class="result-card xai-card" id="cardNextSteps">
-          <div class="result-card-header">
-            <span class="result-card-tag">F</span>
             <h3 data-i18n="card_e_title">Why This Advisory Was Generated</h3>
             <span class="xai-label" data-i18n="xai_label">Explainability</span>
           </div>
           <div class="xai-content" id="xaiContent"></div>
         </div>
 
-        <!-- G: Advisory Feedback -->
-        <div class="result-card feedback-card" id="cardHITL">
+        <!-- F: Next Steps -->
+        <div class="result-card" id="cardNextSteps">
+          <div class="result-card-header">
+            <span class="result-card-tag">F</span>
+            <h3 data-i18n="card_f_title">Suggested Next Steps</h3>
+          </div>
+          <div class="next-steps-content" id="nextStepsContent"></div>
+        </div>
+
+        <!-- G: HITL -->
+        <div class="result-card hitl-card" id="cardHITL">
           <div class="result-card-header">
             <span class="result-card-tag">G</span>
+            <h3 data-i18n="card_g_title">Extension Support Recommendation</h3>
+            <span class="hitl-label" data-i18n="hitl_label">Human-in-the-Loop</span>
+          </div>
+          <div class="hitl-content" id="hitlContent"></div>
+        </div>
+
+        <!-- H: Feedback -->
+        <div class="result-card feedback-card" id="cardFeedback">
+          <div class="result-card-header">
+            <span class="result-card-tag">H</span>
             <h3 data-i18n="card_h_title">Advisory Feedback</h3>
             <span class="feedback-stage-label" data-i18n="feedback_stage">Feedback Stage</span>
           </div>
-
           <div class="feedback-form" id="feedbackForm">
-            <!-- Q1: Was this advisory useful? -->
-            <div class="feedback-group">
-              <label class="feedback-label">Was this advisory useful?</label>
-              <div class="impl-options">
-                <label class="impl-option"><input type="radio" name="useful" value="Yes"/>      <span>Yes</span></label>
-                <label class="impl-option"><input type="radio" name="useful" value="Somewhat"/> <span>Somewhat</span></label>
-                <label class="impl-option"><input type="radio" name="useful" value="No"/>       <span>No</span></label>
-              </div>
-            </div>
-
-            <!-- Q2: Star rating -->
             <div class="feedback-group">
               <label class="feedback-label" data-i18n="fb_rate_label">Rate the relevance of this advisory</label>
               <div class="star-rating" id="starRating">
@@ -472,43 +460,36 @@
               </div>
               <span class="rating-label" id="ratingLabel" data-i18n="fb_not_rated">Not rated</span>
             </div>
-
-            <!-- Q3: Will you implement? -->
             <div class="feedback-group">
-              <label class="feedback-label" data-i18n="fb_impl_label">Will you implement these recommendations?</label>
+              <label class="feedback-label" data-i18n="fb_impl_label">Would you implement these recommendations?</label>
               <div class="impl-options">
-                <label class="impl-option"><input type="radio" name="implement" value="Yes"/>       <span data-i18n="fb_yes">Yes</span></label>
+                <label class="impl-option"><input type="radio" name="implement" value="Yes"/>   <span data-i18n="fb_yes">Yes</span></label>
                 <label class="impl-option"><input type="radio" name="implement" value="Partially"/> <span data-i18n="fb_partial">Partially</span></label>
-                <label class="impl-option"><input type="radio" name="implement" value="No"/>        <span data-i18n="fb_no">No</span></label>
+                <label class="impl-option"><input type="radio" name="implement" value="No"/>    <span data-i18n="fb_no">No</span></label>
               </div>
             </div>
-
-            <!-- Q4: What additional support? -->
             <div class="feedback-group">
               <label class="feedback-label">
-                <span data-i18n="fb_support_label">What additional support do you need?</span>
+                <span data-i18n="fb_support_label">What support would help implementation?</span>
                 <span class="optional" data-i18n="optional">(optional)</span>
               </label>
               <textarea id="supportNeeded" rows="3"
                 data-i18n-placeholder="fb_support_placeholder"
                 placeholder="Describe what assistance, training, or resources would help…"></textarea>
             </div>
-
             <div class="btn-row">
               <button class="btn-primary" onclick="submitFeedback()" data-i18n="btn_submit_feedback">Submit Feedback →</button>
             </div>
-          </div><!-- end feedbackForm -->
-
-          <!-- Feedback submitted confirmation -->
+          </div>
           <div class="feedback-submitted hidden" id="feedbackSubmitted">
             <div class="feedback-confirm">
               <span class="confirm-icon">✓</span>
               <p data-i18n="fb_confirmed">Feedback recorded. This input contributes to the adaptive feedback loop.</p>
             </div>
           </div>
-        </div><!-- end cardHITL -->
+        </div>
 
-        <!-- Actions — outside feedbackForm so always visible -->
+        <!-- Actions -->
         <div class="btn-row centered result-actions">
           <button class="btn-secondary" onclick="resetAssessment()" data-i18n="btn_new">↺ New Assessment</button>
           <button class="btn-primary"   onclick="saveToLocal()"     data-i18n="btn_save">↓ Save Report</button>
@@ -524,7 +505,7 @@
     <p data-i18n="footer">AgriReadiness © 2025 · Digital Toolkit for Agricultural Extension · PhD Credit Seminar Prototype</p>
   </footer>
 
-  <!-- FIX: correct script filename -->
   <script src="script.js"></script>
 </body>
 </html>
+HTMLEOF
